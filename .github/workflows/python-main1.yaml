@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches:
+  #    - v0.0.0
+  #pull_request:
+  #  branches:
+  #    - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8
+
+    - name: Lint with flake8
+      run: |
+        flake8 .
+
+  codeql:
+       name: "Create custom bundle"
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v3
+         - uses: advanced-security/codeql-bundle-action/download-bundle@v2
+           id: download-bundle
+           with:
+             tag: "latest"
+         - uses: advanced-security/codeql-bundle-action/create-bundle@v2
+           id: create-bundle
+           with:
+             bundle-path: ${{ steps.download-bundle.outputs.bundle-path }}
+             packs: "octo/cpp-queries,octo/cpp-all,octo/cpp-customizations" 
+         - uses: actions/upload-artifact@v3
+           with:
+            name: codeql-bundle.tar.gz
+            path: ${{ steps.create-bundle.outputs.output-path }}
+
+#    steps:
+#    - name: Checkout code
+#      uses: actions/checkout@v4
+
+#    - name: Initialize CodeQL
+#      uses: github/codeql-action/init@v3
+#      with:
+#        languages: python
+
+#    - name: Perform CodeQL Analysis
+#      uses: github/codeql-action/analyze@v3
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest
