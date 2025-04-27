@@ -21,43 +21,9 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "pip"
+    # Look for `package.json` and `lock` files in the `root` directory
     directory: "/"
+    # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-    commit-message:
-      prefix: "chore"
-      prefix-development: "chore"
-    ignore:
-      - dependency-name: "some-package"
-        versions: ["1.0.0", "2.0.0"]
     target-branch: "v0.0.0"
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 10
-    labels:
-      - "security"
-    commit-message:
-      prefix: "fix"
-      prefix-development: "fix"
-    ignore:
-      - dependency-name: "some-package"
-        versions: ["1.0.0", "2.0.0"]
-    target-branch: "v0.0.0"
-
-security-updates:
-  directory: "/"
-  schedule:
-    interval: "daily"
-  open-pull-requests-limit: 10
-  labels:
-    - "security"
-  commit-message:
-    prefix: "fix"
-    prefix-development: "fix"
-  target-branch: "v0.0.0"
