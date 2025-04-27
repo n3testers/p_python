@@ -1,7 +1,8 @@
 name: Snyk
 on:
   push:
-    branches: [ "main", "v*" ]
+    #branches: [ "main", "v*" ]
+    branches: [ "v*" ]
   #pull_request:
   #  branches: [ "main" ]
   schedule:
