@@ -1,9 +1,9 @@
-name: CI
+name: Python-Test
 
 on:
   push:
     branches:
-  #    - v0.0.0
+      - v0.0.0
   #pull_request:
   #  branches:
   #    - main
@@ -30,24 +30,24 @@ jobs:
       run: |
         flake8 .
 
-  codeql:
-       name: "Create custom bundle"
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v3
-         - uses: advanced-security/codeql-bundle-action/download-bundle@v2
-           id: download-bundle
-           with:
-             tag: "latest"
-         - uses: advanced-security/codeql-bundle-action/create-bundle@v2
-           id: create-bundle
-           with:
-             bundle-path: ${{ steps.download-bundle.outputs.bundle-path }}
-             packs: "octo/cpp-queries,octo/cpp-all,octo/cpp-customizations" 
-         - uses: actions/upload-artifact@v3
-           with:
-            name: codeql-bundle.tar.gz
-            path: ${{ steps.create-bundle.outputs.output-path }}
+  # codeql:
+  #      name: "Create custom bundle"
+  #      runs-on: ubuntu-latest
+   #     steps:
+   #       - uses: actions/checkout@v3
+   #       - uses: advanced-security/codeql-bundle-action/download-bundle@v2
+   #         id: download-bundle
+   #         with:
+   #           tag: "latest"
+   #       - uses: advanced-security/codeql-bundle-action/create-bundle@v2
+   #         id: create-bundle
+   #         with:
+   #           bundle-path: ${{ steps.download-bundle.outputs.bundle-path }}
+   #           packs: "octo/cpp-queries,octo/cpp-all,octo/cpp-customizations" 
+   #       - uses: actions/upload-artifact@v3
+    #        with:
+    #         name: codeql-bundle.tar.gz
+     #        path: ${{ steps.create-bundle.outputs.output-path }}
 
 #    steps:
 #    - name: Checkout code
